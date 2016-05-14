@@ -16,8 +16,8 @@ KDNode::~KDNode() {
 
 /* provided by instructor */
 double KDNode::distance(double _la, double _lo) {
-    double param = M_PI / 180.0; // required for conversion from degrees to radians
-    double rad = 3956.0;  // radius of earth in miles
+    double param = M_PI / 180.0; 	// required for conversion from degrees to radians
+    double rad = 3956.0; 		// radius of earth in miles
     double d_lat = (_la - lat) * param;
     double d_lon = (_lo - lon) * param;
     double dist = sin(d_lat/2) * sin(d_lat/2) + cos(lat*param) * cos(_la*param) * sin(d_lon/2) * sin(d_lon/2);
@@ -151,12 +151,12 @@ void KDTree::rangeQuery(KDNode* p, std::stack<KDNode*>* query, unsigned int*coun
 // print all the nodes on the convex hull and where
 // filter is a non-empty substring of their description
 unsigned int KDTree::printConvexHull(double la, double lo, double rad, const std::string &filter) {
-    std::vector<KDNode*> q_arr;						// store queries found in printNeighbors
+    std::vector<KDNode*> q_arr;					// store queries found in printNeighbors
     std::stack<KDNode*> convex_points;				// store nodes on the convex hull
-    std::ofstream convex_js;						// file output
+    std::ofstream convex_js;					// file output
     q_arr = printNeighbors(la, lo, rad, filter);
     
-	convex_js.open("data/convex.js");				// create convex.js in ./data/
+	convex_js.open("data/convex.js");			// create convex.js in ./data/
     convex_js << "var convex = [\n";
     
     // q_arr has enough points to form a polygon/convex hull
@@ -194,8 +194,8 @@ void KDTree::grahamScan(std::vector<KDNode*> &q_arr, std::stack<KDNode*> &convex
     	KDNode* point_b = convex_points.top();
     	convex_points.pop();
     	while (ccw(convex_points.top(), point_b, q_arr[i]) <= 0) {	// if collinear or
-    		point_b = convex_points.top();							// cw, remove point b
-    		convex_points.pop();									// ccw(a, b, c)
+    		point_b = convex_points.top();				// cw, remove point b
+    		convex_points.pop();					// ccw(a, b, c)
     	}
     	convex_points.push(point_b);	// restore point b
     	convex_points.push(q_arr[i]);   // insert ccw point
@@ -233,9 +233,9 @@ void KDTree::findHull(std::vector<KDNode*> &q_arr) {
 int KDTree::ccw(KDNode* a, KDNode* b, KDNode* c) {
 	// cross product
 	double area2 = (b->lon - a->lon)*(c->lat - a->lat) - (b->lat - a->lat)*(c->lon - a->lon);
-	if 		(area2 < 0) return -1;	// clockwise
+	if 	(area2 < 0) 	return -1;	// clockwise
 	else if (area2 > 0)	return 1;	// counter-clockwise
-	else 				return 0;	// collinear
+	else 			return 0;	// collinear
 }
 
 /********************************************************************************************************/
